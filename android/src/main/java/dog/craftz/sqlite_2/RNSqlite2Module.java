@@ -26,6 +26,7 @@ import org.json.JSONException;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Base64;
 
 @ReactModule(name = RNSqlite2Module.NAME)
 public class RNSqlite2Module extends ReactContextBaseJavaModule {
@@ -241,8 +242,7 @@ public class RNSqlite2Module extends ReactContextBaseJavaModule {
       case Cursor.FIELD_TYPE_BLOB:
         // convert byte[] to binary string; it's good enough, because
         // WebSQL doesn't support blobs anyway
-        String value = new String(cursor.getBlob(index));
-        return escapeBlob(value);
+        return new String(Base64.encode(cursor.getBlob(index)));
       case Cursor.FIELD_TYPE_STRING:
         return escapeBlob(cursor.getString(index));
     }
